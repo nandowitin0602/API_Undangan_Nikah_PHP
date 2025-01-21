@@ -26,7 +26,7 @@ class UcapanController extends Controller
                 $validated['konfirmasi_kehadiran']
             ]);
 
-            return response()->json(['message' => 'Data berhasil ditambahkan.'], 201);
+            return response()->json(['message' => 'Data berhasil ditambahkan.'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Terjadi kesalahan.', 'error' => $e->getMessage()], 500);
         }

@@ -11,7 +11,7 @@ class UcapanController extends Controller
     {
         // Validasi input
         $validated = $request->validate([
-            'nama' => 'required|string',
+            'nama' => 'nullable|string',
             'ucapan' => 'required|string',
             'konfirmasi_kehadiran' => 'required|string',
         ]);
@@ -126,8 +126,11 @@ class UcapanController extends Controller
             return strtolower(trim($name));
         }, $validNames);
 
-        // Jika nama tidak ada di array validNames, maka diisi "Tamu Undangan"
-        $nama = in_array(strtolower(trim($validated['nama'])), $validNames) ? $validated['nama'] : 'Tamu Undangan';
+        // Trim dan lowercase nama yang diinputkan
+        $namaInput = strtolower(trim($validated['nama'] ?? ''));
+
+        // Jika nama kosong atau tidak ada di array validNames, maka diisi "Tamu Undangan"
+        $nama = empty($namaInput) || !in_array($namaInput, $validNames) ? 'Tamu Undangan' : $validated['nama'];
 
         try {
             DB::insert("
